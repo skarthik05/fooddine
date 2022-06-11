@@ -1,36 +1,42 @@
 const mongoDb = require("../mongodb");
 
 exports.listMenu = async (req, res) => {
-  let pipeline = [
-    {
-      $group: {
-        _id: { type: "$type" },
-        menu: {
-          $addToSet: {
-            item: "$item",
-            price: "$price",
-            cuisine: "$cuisine",
-            count: "$count",
+  try {
+    let pipeline = [
+      {
+        $group: {
+          _id: { type: "$type" },
+          menu: {
+            $addToSet: {
+              item: "$item",
+              price: "$price",
+              cuisine: "$cuisine",
+              count: "$count",
+            },
           },
         },
       },
-    },
-    {
-      $project: {
-        type: "$_id.type",
-        _id: 0,
-        menu: 1,
+      {
+        $project: {
+          type: "$_id.type",
+          _id: 0,
+          menu: 1,
+        },
       },
-    },
-  ];
-  let menuDetails = await mongoDb.get("menus").aggregate(pipeline).toArray();
-  if (!menuDetails?.length) {
-    return res.status(200).send([]);
+    ];
+    let menuDetails = await mongoDb.get("menus").aggregate(pipeline).toArray();
+    if (!menuDetails?.length) {
+      return res.status(200).send([]);
+    }
+    return res.status(200).send(menuDetails);
+  } catch (error) {
+    return res.sendStatus(500);
   }
-  return res.status(200).send(menuDetails);
 };
 
 exports.createMenu = async (req, res) => {
+  try {
+  } catch (error) {}
   let MenuDetails = [
     {
       item: "Dosa",
