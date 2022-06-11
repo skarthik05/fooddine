@@ -2,7 +2,8 @@ const { dateToISo } = require("../handler/function");
 const mongoDb = require("../mongodb");
 exports.createOrders = async (req, res) => {
   try {
-    let { phone = null, tableNumber, items } = req.body;
+    let { tableNumber, items } = req.body;
+    let { phone } = req.user;
     for (let item of items) {
       let query = {
         $and: [
