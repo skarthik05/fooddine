@@ -65,7 +65,11 @@ exports.listCurrentOrders = async (req, res) => {
         },
       },
     ];
-    let orderList = await mongoDb.get("orders").aggregate(pipeline).toArray();
+    let orderList = await mongoDb
+      .get("orders")
+      .aggregate(pipeline)
+      .toArray();
+   
     if (!orderList?.length) {
       return res.status(200).send([]);
     }

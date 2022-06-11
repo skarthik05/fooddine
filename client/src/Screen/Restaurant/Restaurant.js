@@ -1,40 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap';
+import axios from 'axios';
+import { Globals } from '../../globals';
 function Restaurant() {
+    const [activeOrders,setActiveOrders]=useState([])
+    const [tables,setTables]=useState([])
+    const getActiveOrders = async ()=>{
+        try{
+           const {data} = await axios.get(Globals.baseURL+"orders/active")
+           console.log(data)
+           setActiveOrders(data)
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+
+    const getTables=async ()=>{
+        try{
+            const {data} = await axios.get(Globals.baseURL+"tables")
+            console.log(data)
+            setTables(data)
+         }catch(err){
+             console.log(err);
+         }
+    }
+    useEffect(()=>{
+        getActiveOrders();
+        getTables();
+    },[])
   return (
-    <div><div className='table-wrap'>
-    <Table striped bordered hover>
-      <thead>
-        <tr className='table-header'>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Phone number</th>
-          <th>Shipping address</th>
-        </tr>
-      </thead>
-      <tbody>
-        {/* {
-          tableData.map((row,i)=>{
-    return <tr>
-          <td>{i+1}</td>      
-          <td>{row.firstName}</td>
-          <td>{row.lastName}</td>
-          <td>{row.email}</td>
-          <td>{row.phoneNumber}</td>
-          <td>Address line 1: {row.streetAddress1}<br />Address line 2: {row.streetAddress2}<br />
-          City: {row.city}<br />
-          State / Province: {row.stateOrprovince}<br />
-          Country : {row.country}<br />
-          Postal Code: {row.postalCode}
-          </td>
-        </tr>
-          })
-        } */}
-      </tbody>
-    </Table>
-    </div></div>
+    <div>
+        
+    </div>
   )
 }
 

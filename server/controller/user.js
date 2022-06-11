@@ -41,8 +41,9 @@ exports.signUp = async (req, res) => {
             { $set: { isOccupied: true } }
           ),
       ]);
+    }else{
+      return res.status(409).send("All fields are required");
     }
-    return res.status(409).send("All fields are required");
   } catch (error) {
     return res.sendStatus(500);
   }
