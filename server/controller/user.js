@@ -76,7 +76,7 @@ exports.signOut = async (req, res) => {
 
 exports.recentOrders = async (req, res) => {
   try {
-    let { email, phone } = req.body;
+    let { email, phone } = req.user;
     if (email && phone) {
       let orderDetails = await mongoDb
         .get("orders")

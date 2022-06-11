@@ -2,7 +2,8 @@ const { dateToISo } = require("../handler/function");
 const mongoDb = require("../mongodb");
 exports.createOrders = async (req, res) => {
   try {
-    let { phone = null, tableNumber, items } = req.body;
+    let { tableNumber, items } = req.body;
+    let { phone } = req.user;
     for (let item of items) {
       let query = {
         $and: [
@@ -98,7 +99,7 @@ exports.listOrders = async (req, res) => {
     let orderDetails = await mongoDb
       .get("menus")
       .find({})
-      .project({ _id: 0, item: 1, price: 1 })
+      .project({ _id: 0, item: 1, price: 1, count: 1 })
       .sort({ count: -1 })
       .limit(6)
       .toArray();

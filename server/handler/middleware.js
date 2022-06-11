@@ -8,10 +8,9 @@ exports.authenticateJWT = (req, res, next) => {
     jwt.verify(token, process.env.ACCESSTOKEN, (err, user) => {
       if (err) {
         return res.sendStatus(403);
+      } else {
+        req.user = user;
       }
-      //   else {
-      //     req.user = user;
-      //   }
       next();
     });
   } else {
