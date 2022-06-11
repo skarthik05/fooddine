@@ -1,0 +1,28 @@
+.plus,.minus {
+    color : white;
+    background-color: #ff7b00;
+    border: none;
+    outline: none;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.placeorder{
+    position: fixed;
+    bottom: 0;
+    left:0;
+    width: 100%;
+    background-color: white;
+    box-shadow: -2px -2px 15px 0px rgba(184, 182, 182, 0.75);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.placeorder button {
+    padding: 0.8rem 2rem;
+    border: none;
+    background-color: rgb(50, 158, 23);
+    color:white;
+    border-radius: 25px;
+}
