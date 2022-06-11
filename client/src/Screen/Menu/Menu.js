@@ -10,6 +10,8 @@ import "./Menu.css"
 function Menu() {
     let params = useParams();
     const [showFrom,setShowForm] = useState(false);
+    const [showModal,setShow] = useState(false);
+    const [formData,setFormData] = useState({email:"",name:"",phone:""});
     const [cart,setCart] = useState({})
     const [menu,setMenu] = useState([]);
     const getMenu = async ()=>{
@@ -57,12 +59,26 @@ function Menu() {
 
 
 
+const handleChange=(e)=>{
+    setFormData({...formData,[e.target.name]:e.target.value})
+}
+
+const submitForm = async (e)=>{
+    e.preventDefault();
+   try{
+
+      const {data}= await axios.post(Globals.baseURL+"users/signup",{...formData,items:Object.values(cart),tableNumber:params.id})
+      console.log(data); 
+   }catch(err){
+       console.log(err)
+   }
+}
 
   return (
     <div style={{padding:"0rem 1rem"}}>
-       <div><h1>Menu</h1></div> 
+       <div className='header'><h1>Menu</h1>  {Object.keys(cart).length>0?<div className='placeorder'><button onClick={()=>{setShow(true)}}>Place order</button></div>:null}</div> 
        
-       <Row>
+       <Row style={{marginTop:"2rem"}}>
                         <Col sm={9} m={6}>           
         {menu.map((menuItem,index)=>{
             return <div key={index} style={{boxShadow: "3px 3px 14px -6px rgba(0,0,0,0.75)",padding:"2rem",marginRight:"1rem",marginLeft:"1rem",marginBottom:"1rem"}}>
@@ -70,7 +86,7 @@ function Menu() {
                 <div>
                 
                      
-                        <Row xs={2} md={4} className="g-3">
+                        <Row xs={1} md={4} className="g-3">
                     {
                             
                             
@@ -104,7 +120,7 @@ function Menu() {
         })}
         </Col>
         <Col sm={3} m={2} >
-            <div style={{position:'sticky',top:0}}>
+            <div style={{position:'sticky',top:"15%"}}>
             <div >
          <h2>
              Recent Orders
@@ -141,8 +157,23 @@ function Menu() {
           
         </Col>
                      </Row>          
-        
-       {Object.keys(cart).length>0?<div className='placeorder'><button>Place order</button></div>:null}
+                     {showModal&& <div className='c-modal'>
+        <div className="c-modal-content">
+      <span className="c-close" onClick={()=>setShow(false)}>✕</span>
+      <div className='form-modal'>
+          <h2>Almost done!</h2>
+      <form>
+        <input name="name" type="text" value={formData.name} onChange={handleChange} placeholder='Name' required />
+        <input name="email" type="email"  value={formData.email} onChange={handleChange} placeholder='Email' required />
+        <input name="phone" type="text" value={formData.phone} onChange={handleChange} placeholder='Phone' required />
+        <br />
+        <button onClick={submitForm} className="button"> Proceed</button>
+    </form>
+  
+      </div>
+    </div>
+        </div>}
+      
     </div>
   )
 }
