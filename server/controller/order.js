@@ -99,7 +99,7 @@ exports.listOrders = async (req, res) => {
     let orderDetails = await mongoDb
       .get("menus")
       .find({})
-      .project({ _id: 0, item: 1, price: 1 })
+      .project({ _id: 0, item: 1, price: 1, count: 1 })
       .sort({ count: -1 })
       .limit(6)
       .toArray();
