@@ -81,7 +81,7 @@ exports.recentOrders = async (req, res) => {
       let orderDetails = await mongoDb
         .get("orders")
         .find({ $or: [{ email }, { phone }] })
-        .project({ _id: 0, item: 1 })
+        .project({ _id: 0, item: 1, price: 1 })
         .sort({ date: -1, quantity: -1 })
         .limit(6)
         .toArray();
