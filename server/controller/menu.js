@@ -6,7 +6,12 @@ exports.listMenu = async (req, res) => {
       $group: {
         _id: { type: "$type" },
         menu: {
-          $addToSet: { item: "$item", price: "$price", cuisine: "$cuisine" },
+          $addToSet: {
+            item: "$item",
+            price: "$price",
+            cuisine: "$cuisine",
+            count: "$count",
+          },
         },
       },
     },
