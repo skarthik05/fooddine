@@ -42,7 +42,7 @@ exports.listCurrentOrders = async (req, res) => {
     let pipeline = [
       {
         $match: {
-          $and: [{ date: dateToISo() }, { isCompleted: false }],
+          $and: [{ createdOn: dateToISo() }, { isCompleted: false }],
         },
       },
       {
