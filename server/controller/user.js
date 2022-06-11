@@ -23,6 +23,7 @@ exports.signUp = async (req, res) => {
         item["createdOn"] = dateToISo();
         item["phone"] = phone;
         item["isCompleted"] = false;
+        item["tableNumber"] = tableNumber;
       });
       let insertDetails = Promise.all([
         mongoDb

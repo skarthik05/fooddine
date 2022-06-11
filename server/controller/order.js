@@ -27,6 +27,7 @@ exports.createOrders = async (req, res) => {
         item["createdOn"] = dateToISo();
         item["phone"] = phone;
         item["isCompleted"] = false;
+        item["tableNumber"] = tableNumber;
         mongoDb.get("orders").insertOne(item);
       }
     }
@@ -64,11 +65,7 @@ exports.listCurrentOrders = async (req, res) => {
         },
       },
     ];
-    let orderList = await mongoDb
-      .get("orders")
-      .aggregate(pipeline)
-      .toArray()
-      .toArray();
+    let orderList = await mongoDb.get("orders").aggregate(pipeline).toArray();
     if (!orderList?.length) {
       return res.status(200).send([]);
     }
