@@ -5,6 +5,6 @@ var router = express.Router();
 
 /* GET users listing. */
 router.post("/signup", signUp);
-router.put("/signout", signOut);
+router.post("/signout", signOut);
 router.post("/recent/orders", authenticateJWT, recentOrders);
 module.exports = router;

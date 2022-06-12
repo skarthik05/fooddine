@@ -37,7 +37,7 @@ exports.signUp = async (req, res) => {
         mongoDb
           .get("tables")
           .updateOne(
-            { tableNumber: tableNumber },
+            { tableNumber: parseInt(tableNumber) },
             { $set: { isOccupied: true } }
           ),
       ]);
@@ -57,7 +57,7 @@ exports.signOut = async (req, res) => {
         {
           $and: [
             { phone: phone },
-            { tableNumber: tableNumber },
+            { tableNumber: parseInt(tableNumber) },
             { isCompleted: false },
           ],
         },
@@ -66,9 +66,10 @@ exports.signOut = async (req, res) => {
       mongoDb
         .get("tables")
         .updateOne(
-          { tableNumber: tableNumber },
+          { tableNumber: parseInt(tableNumber) },
           { $set: { isOccupied: false } }
         ),
+      mongoDb.get("users").update({ phone: phone }, { $unset: { token: "" } }),
     ]);
     return res.sendStatus(200);
   } catch (error) {
