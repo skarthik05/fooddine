@@ -1,5 +1,7 @@
+const { config } = require("./global");
+
 require("dotenv").config();
-const mongoDbUrl = process.env.DBURL;
+const mongoDbUrl = config.db.url;
 const mongoClient = require("mongodb").MongoClient;
 let mongodb;
 function connect(callback) {

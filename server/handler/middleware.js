@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
+const { config } = require("../global");
 
 exports.authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(" ")[1];
 
-    jwt.verify(token, process.env.ACCESSTOKEN, (err, user) => {
+    jwt.verify(token, config.jwt.ACCESSTOKEN, (err, user) => {
       if (err) {
         return res.sendStatus(403);
       } else {
