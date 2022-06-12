@@ -8,11 +8,13 @@ import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Restaurant from './Screen/Restaurant/Restaurant';
 import Menu from './Screen/Menu/Menu';
+import Home from './Screen/Home/Home';
 function App() {
   // const 
   return (
     <div className="App">
      <Routes>
+       <Route path="/" element={<Home />} />
        <Route path="/user/:id" element={<Menu />} />
        <Route path="/restaurant" element={<Restaurant />} />
      </Routes>
