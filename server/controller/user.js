@@ -30,7 +30,7 @@ exports.signUp = async (req, res) => {
           .get("users")
           .updateOne(
             { $or: [{ email: email }, { phone, phone }] },
-            { $set: { email, name, phone } },
+            { $set: { email, name, phone, token } },
             { upsert: true }
           ),
         mongoDb.get("orders").insertMany(items),
@@ -41,8 +41,9 @@ exports.signUp = async (req, res) => {
             { $set: { isOccupied: true } }
           ),
       ]);
+    } else {
+      return res.status(409).send("All fields are required");
     }
-    return res.status(409).send("All fields are required");
   } catch (error) {
     return res.sendStatus(500);
   }
