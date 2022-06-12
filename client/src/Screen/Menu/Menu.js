@@ -100,7 +100,8 @@ const submitForm = async (e)=>{
                     "headers": {
                       'Authorization': `Bearer ${JSON.parse(token)}` 
                     }})
-                if(data && data.items){
+                    console.log(data,"order");
+                if(data && data.length>0){
                   localStorage.setItem("items",JSON.stringify(data.items));
                   setShow(false)
                   setCart({})

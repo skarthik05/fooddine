@@ -9,7 +9,7 @@ exports.createOrders = async (req, res) => {
         $and: [
           {
             phone: phone,
-            tableNumber: tableNumber,
+            tableNumber: parseInt(tableNumber),
             isCompleted: false,
             item: item.item,
           },
@@ -53,6 +53,7 @@ exports.listCurrentOrders = async (req, res) => {
               item: "$item",
               isCompleted: "$isCompleted",
               quantity: "$quantity",
+              phone:"$phone"
             },
           },
         },
@@ -75,6 +76,9 @@ exports.listCurrentOrders = async (req, res) => {
     }
     return res.status(200).send(orderList);
   } catch (error) {
+    console.log('====================================');
+    console.log(error);
+    console.log('====================================');
     return res.sendStatus(500);
   }
 };

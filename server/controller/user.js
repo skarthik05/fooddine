@@ -25,11 +25,11 @@ exports.signUp = async (req, res) => {
         item["isCompleted"] = false;
         item["tableNumber"] = tableNumber;
       });
-      let insertDetails = Promise.all([
+      let insertDetails =await Promise.all([
         mongoDb
           .get("users")
           .updateOne(
-            { $or: [{ email: email }, { phone, phone }] },
+            { $or: [{ email: email }, { phone: phone }] },
             { $set: { email, name, phone } },
             { upsert: true }
           ),
@@ -37,10 +37,11 @@ exports.signUp = async (req, res) => {
         mongoDb
           .get("tables")
           .updateOne(
-            { tableNumber: tableNumber },
+            { tableNumber: parseInt(tableNumber) },
             { $set: { isOccupied: true } }
           ),
       ]);
+      console.log(insertDetails);
     }else{
       return res.status(409).send("All fields are required");
     }
@@ -52,24 +53,24 @@ exports.signUp = async (req, res) => {
 exports.signOut = async (req, res) => {
   try {
     let { tableNumber, phone } = req.body;
+    console.log( { phone: phone , tableNumber: tableNumber , isCompleted: false 
+          
+    });
     let updateDetails = await Promise.all([
       mongoDb.get("orders").updateMany(
-        {
-          $and: [
-            { phone: phone },
-            { tableNumber: tableNumber },
-            { isCompleted: false },
-          ],
+            { phone: phone , tableNumber:(tableNumber.toString()) , isCompleted: false 
+          
         },
         { $set: { isCompleted: true } }
-      ),
+      ).toArray(),
       mongoDb
         .get("tables")
         .updateOne(
-          { tableNumber: tableNumber },
+          { tableNumber: parseInt(tableNumber) },
           { $set: { isOccupied: false } }
         ),
     ]);
+    console.log(updateDetails);
     return res.sendStatus(200);
   } catch (error) {
     return res.sendStatus(500);
